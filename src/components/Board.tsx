@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import TicTacToe, { Coordinates, Symbol, PlayerTypes } from "../game/tictactoe";
+import TicTacToe, { Coordinates, GameSymbol, PlayerTypes } from "../game/tictactoe";
 import { Circle } from "./Circle";
 import { Cross } from "./Cross";
 
@@ -21,7 +21,7 @@ const CoordinatesAreWinning = (x: number, y: number, coordinates: [Coordinates, 
     coordinates && coordinates.some((subArr) => subArr.length === [x, y].length && subArr.every((value, index) => value === [x, y][index]));
 
 const Cell = ({ x, y, onCellClick, game }: CellProps) => {
-    const [icon, setIcon] = useState<Symbol>(Symbol.Empty);
+    const [icon, setIcon] = useState<GameSymbol>(GameSymbol.Empty);
 
     const onClick = () => {
         setIcon(game.getCurrentPlay());
@@ -37,14 +37,14 @@ const Cell = ({ x, y, onCellClick, game }: CellProps) => {
 
     return (
         <button
-            disabled={Boolean(game.isGameWon()) || icon !== Symbol.Empty}
+            disabled={Boolean(game.isGameWon()) || icon !== GameSymbol.Empty}
             className={`cell ${CoordinatesAreWinning(x, y, game.isGameWon()) ? "win" : ""}`}
             role="gridcell"
             aria-label={icon}
             onClick={onClick}
             tabIndex={0}
         >
-            {icon && (icon === Symbol.Cross ? <Cross /> : <Circle />)}
+            {icon && (icon === GameSymbol.Cross ? <Cross /> : <Circle />)}
         </button>
     );
 };

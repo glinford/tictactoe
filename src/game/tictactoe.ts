@@ -1,4 +1,4 @@
-export enum Symbol {
+export enum GameSymbol {
     Empty = "",
     Cross = "X",
     Circle = "O",
@@ -39,11 +39,11 @@ const randomCoordinate = () => Math.floor(Math.random() * 3);
  * A class representing a Tic Tac Toe game.
  */
 class TicTacToe {
-    private pick?: Symbol;
+    private pick?: GameSymbol;
     private listeners: (() => void)[][] = [[], [], []];
 
-    protected board: Symbol[][];
-    protected currentSymbol!: Symbol;
+    protected board: GameSymbol[][];
+    protected currentSymbol!: GameSymbol;
 
     public config: GameConfig;
 
@@ -55,9 +55,9 @@ class TicTacToe {
         this.config = config;
 
         this.board = [
-            [Symbol.Empty, Symbol.Empty, Symbol.Empty],
-            [Symbol.Empty, Symbol.Empty, Symbol.Empty],
-            [Symbol.Empty, Symbol.Empty, Symbol.Empty],
+            [GameSymbol.Empty, GameSymbol.Empty, GameSymbol.Empty],
+            [GameSymbol.Empty, GameSymbol.Empty, GameSymbol.Empty],
+            [GameSymbol.Empty, GameSymbol.Empty, GameSymbol.Empty],
         ];
 
         this.setSymbol();
@@ -76,8 +76,8 @@ class TicTacToe {
 
             // if player who begins is AI, play directly after all listeners are in place
             if (row === 2 && col === 2) {
-                if (this.currentSymbol === Symbol.Circle) {
-                    this.setChoice(Symbol.Circle);
+                if (this.currentSymbol === GameSymbol.Circle) {
+                    this.setChoice(GameSymbol.Circle);
                     this.playAI();
                 }
             }
@@ -96,25 +96,25 @@ class TicTacToe {
             this.switchPlayer();
 
             // Play directly if opponent is Computer and it's the computer turn
-            if (this.config.opponent === PlayerTypes.Computer && this.currentSymbol === Symbol.Circle) {
+            if (this.config.opponent === PlayerTypes.Computer && this.currentSymbol === GameSymbol.Circle) {
                 this.playAI();
             }
         }
     }
 
     /**
-     * Get the current play symbol.
-     * @returns The current play symbol.
+     * Get the current play GameSymbol.
+     * @returns The current play GameSymbol.
      */
-    public getCurrentPlay(): Symbol {
+    public getCurrentPlay(): GameSymbol {
         return this.config.mode === GameModes.Wild ? this.pick || this.currentSymbol : this.currentSymbol;
     }
 
     /**
-     * Set the current play symbol.
-     * @param choice - The new play symbol.
+     * Set the current play GameSymbol.
+     * @param choice - The new play GameSymbol.
      */
-    public setChoice(choice: Symbol): void {
+    public setChoice(choice: GameSymbol): void {
         if (this.config.mode === GameModes.Wild) {
             this.pick = choice;
         }
@@ -134,17 +134,17 @@ class TicTacToe {
             return `Draw!`;
         }
         if (this.isGameWon() && this.config.victory === VictoryModes.Misere) {
-            return `${this.config.opponent === PlayerTypes.Computer && this.currentSymbol === Symbol.Cross ? "Computer " : ""}Player ${
-                this.currentSymbol === Symbol.Cross ? "two" : "one"
+            return `${this.config.opponent === PlayerTypes.Computer && this.currentSymbol === GameSymbol.Cross ? "Computer " : ""}Player ${
+                this.currentSymbol === GameSymbol.Cross ? "two" : "one"
             } won the game in Misere mode!`;
         }
         if (this.config.mode === GameModes.Wild) {
-            return `${this.config.opponent === PlayerTypes.Computer && this.currentSymbol === Symbol.Circle ? "Computer " : ""}Player ${
-                this.currentSymbol === Symbol.Cross ? "one" : "two"
+            return `${this.config.opponent === PlayerTypes.Computer && this.currentSymbol === GameSymbol.Circle ? "Computer " : ""}Player ${
+                this.currentSymbol === GameSymbol.Cross ? "one" : "two"
             }${this.isGameWon() ? " won the game!" : " turn."}`;
         }
-        return `${this.config.opponent === PlayerTypes.Computer && this.currentSymbol === Symbol.Circle ? "Computer " : ""}Player ${
-            this.currentSymbol === Symbol.Cross ? "one (cross)" : "two (circle)"
+        return `${this.config.opponent === PlayerTypes.Computer && this.currentSymbol === GameSymbol.Circle ? "Computer " : ""}Player ${
+            this.currentSymbol === GameSymbol.Cross ? "one (cross)" : "two (circle)"
         }${this.isGameWon() ? " won the game!" : " turn."}`;
     }
 
@@ -153,12 +153,12 @@ class TicTacToe {
      * @param grid - An optional grid to check; defaults to the current game board.
      * @returns The winning line as a list of coordinates, or `false` if no win is detected.
      */
-    public isGameWon(grid?: Symbol[][]): [Coordinates, Coordinates, Coordinates] | false {
+    public isGameWon(grid?: GameSymbol[][]): [Coordinates, Coordinates, Coordinates] | false {
         const board = grid || this.board;
 
         // check rows
         for (let i = 0; i < 3; i++) {
-            if (board[i][0] !== Symbol.Empty && board[i][0] === board[i][1] && board[i][1] === board[i][2]) {
+            if (board[i][0] !== GameSymbol.Empty && board[i][0] === board[i][1] && board[i][1] === board[i][2]) {
                 return [
                     [i, 0],
                     [i, 1],
@@ -169,7 +169,7 @@ class TicTacToe {
 
         // check columns
         for (let i = 0; i < 3; i++) {
-            if (board[0][i] !== Symbol.Empty && board[0][i] === board[1][i] && board[1][i] === board[2][i]) {
+            if (board[0][i] !== GameSymbol.Empty && board[0][i] === board[1][i] && board[1][i] === board[2][i]) {
                 return [
                     [0, i],
                     [1, i],
@@ -179,14 +179,14 @@ class TicTacToe {
         }
 
         // check diagonals
-        if (board[0][0] !== Symbol.Empty && board[0][0] === board[1][1] && board[1][1] === board[2][2]) {
+        if (board[0][0] !== GameSymbol.Empty && board[0][0] === board[1][1] && board[1][1] === board[2][2]) {
             return [
                 [0, 0],
                 [1, 1],
                 [2, 2],
             ];
         }
-        if (board[2][0] !== Symbol.Empty && board[2][0] === board[1][1] && board[1][1] === board[0][2]) {
+        if (board[2][0] !== GameSymbol.Empty && board[2][0] === board[1][1] && board[1][1] === board[0][2]) {
             return [
                 [2, 0],
                 [1, 1],
@@ -202,11 +202,28 @@ class TicTacToe {
      * @param grid - An optional grid to check; defaults to the current game board.
      * @returns `true` if the board is full, `false` otherwise.
      */
-    public isBoardFull(grid?: Symbol[][]): boolean {
+    public isBoardFull(grid?: GameSymbol[][]): boolean {
         const board = grid || this.board;
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
-                if (board[i][j] === Symbol.Empty) {
+                if (board[i][j] === GameSymbol.Empty) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Check if the game board is empty (only empty cells).
+     * @param grid - An optional grid to check; defaults to the current game board.
+     * @returns `true` if the board is empty, `false` otherwise.
+     */
+    public isBoardEmpty(grid?: GameSymbol[][]): boolean {
+        const board = grid || this.board;
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (board[i][j] !== GameSymbol.Empty) {
                     return false;
                 }
             }
@@ -222,7 +239,7 @@ class TicTacToe {
         let row = randomCoordinate();
         let col = randomCoordinate();
 
-        while (this.board[row][col] !== Symbol.Empty) {
+        while (this.board[row][col] !== GameSymbol.Empty) {
             row = randomCoordinate();
             col = randomCoordinate();
         }
@@ -230,44 +247,36 @@ class TicTacToe {
         return [row, col];
     }
 
+    private getOpponent(pick?: GameSymbol): GameSymbol {
+        return (pick || this.currentSymbol) === GameSymbol.Cross ? GameSymbol.Circle : GameSymbol.Cross;
+    }
+
     /**
      * Rules based AI play
      * @returns Coordinates of next move
      */
-    private rulePlay(): [number, number, Symbol] {
-        let block: [number, number, Symbol] | undefined;
-        let win: [number, number, Symbol] | undefined;
+    private rulePlay(): [number, number, GameSymbol] {
+        let block: [number, number, GameSymbol] | undefined;
 
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
-                if (this.board[i][j] === Symbol.Empty) {
+                if (this.board[i][j] === GameSymbol.Empty) {
                     // try with both picks if on Wild mode
                     const picks = [this.currentSymbol];
-                    this.config.mode === GameModes.Wild && picks.push(this.currentSymbol === Symbol.Cross ? Symbol.Circle : Symbol.Cross);
-                    for (let pick of picks) {
-                        let simulatedBoard = structuredClone(this.board);
+                    this.config.mode === GameModes.Wild && picks.push(this.getOpponent());
+                    for (const pick of picks) {
+                        const simulatedBoard = structuredClone(this.board);
                         simulatedBoard[i][j] = pick;
 
-                        // For Misere mode, treat potential winning moves as blocks
-                        if (this.config.victory === VictoryModes.Misere && this.isGameWon(simulatedBoard)) {
-                            block = [i, j, pick];
-                            continue;
-                        }
-
-                        // For standard mode, treat potential winning moves as wins
+                        // For standard victory mode, treat potential winning moves as wins
                         if (this.config.victory === VictoryModes.Standard && this.isGameWon(simulatedBoard)) {
                             return [i, j, pick];
                         }
 
-                        const otherPlayer = pick === Symbol.Cross ? Symbol.Circle : Symbol.Cross;
+                        const otherPlayer = this.getOpponent(pick);
                         simulatedBoard[i][j] = otherPlayer;
 
-                        // For Misere mode, treat potential blocking moves as wins
-                        if (this.config.victory === VictoryModes.Misere && this.isGameWon(simulatedBoard)) {
-                            win = [i, j, pick];
-                        }
-
-                        // For standard mode, treat potential blocking moves as blocks
+                        // For standard victory mode, treat potential blocking moves as blocks
                         if (this.config.victory === VictoryModes.Standard && this.isGameWon(simulatedBoard)) {
                             block = [i, j, pick];
                         }
@@ -276,20 +285,16 @@ class TicTacToe {
             }
         }
 
-        if (this.config.victory === VictoryModes.Misere && win) {
-            return win;
-        }
-
         if (block) {
             return block;
         }
 
-        return [
-            ...(this.config.level === AILevel.Hard && this.config.mode === GameModes.Standard && this.config.victory === VictoryModes.Standard
-                ? this.minimaxPlay()
-                : this.randomPlay()),
-            this.getCurrentPlay(),
-        ];
+        const useMinimax =
+            (this.config.level === AILevel.Hard && this.config.mode === GameModes.Standard && this.config.victory === VictoryModes.Standard) ||
+            (this.config.mode === GameModes.Standard && this.config.victory === VictoryModes.Misere) ||
+            this.config.mode === GameModes.Wild;
+
+        return useMinimax ? this.minimaxPlay() : [...this.randomPlay(), this.getCurrentPlay()];
     }
 
     /**
@@ -305,11 +310,14 @@ class TicTacToe {
      * @param isMaximizingPlayer True if it's the maximizing player's turn, false otherwise.
      * @returns The score of the board state.
      */
-    private minimaxAI(board: Symbol[][], depth: number, isMaximizingPlayer: boolean): number {
+    private minimaxAI(board: GameSymbol[][], depth: number, isMaximizingPlayer: boolean): number {
         let score;
 
         if (this.isGameWon(board)) {
-            return isMaximizingPlayer ? -10 - depth : 10 - depth;
+            if (this.config.victory === VictoryModes.Misere) {
+                return isMaximizingPlayer ? -10 + depth : depth - 10;
+            }
+            return isMaximizingPlayer ? depth - 10 : 10 - depth;
         }
 
         if (this.isBoardFull(board)) {
@@ -317,32 +325,32 @@ class TicTacToe {
         }
 
         if (isMaximizingPlayer) {
-            let bestScore = -Infinity;
+            let bestScore = this.config.victory === VictoryModes.Misere ? Infinity : -Infinity;
 
             for (let i = 0; i < 3; i++) {
                 for (let j = 0; j < 3; j++) {
-                    if (board[i][j] === Symbol.Empty) {
+                    if (board[i][j] === GameSymbol.Empty) {
                         board[i][j] = this.currentSymbol;
                         score = this.minimaxAI(board, depth + 1, false);
-                        board[i][j] = Symbol.Empty;
-                        bestScore = Math.max(score, bestScore);
+                        board[i][j] = GameSymbol.Empty;
+                        bestScore = this.config.victory === VictoryModes.Misere ? Math.min(score, bestScore) : Math.max(score, bestScore);
                     }
                 }
             }
 
             return bestScore;
         } else {
-            let bestScore = Infinity;
+            let bestScore = this.config.victory === VictoryModes.Misere ? -Infinity : Infinity;
 
-            const otherPlayer = this.currentSymbol === Symbol.Cross ? Symbol.Circle : Symbol.Cross;
+            const otherPlayer = this.getOpponent();
 
             for (let i = 0; i < 3; i++) {
                 for (let j = 0; j < 3; j++) {
-                    if (board[i][j] === Symbol.Empty) {
+                    if (board[i][j] === GameSymbol.Empty) {
                         board[i][j] = otherPlayer;
                         score = this.minimaxAI(board, depth + 1, true);
-                        board[i][j] = Symbol.Empty;
-                        bestScore = Math.min(score, bestScore);
+                        board[i][j] = GameSymbol.Empty;
+                        bestScore = this.config.victory === VictoryModes.Misere ? Math.max(score, bestScore) : Math.min(score, bestScore);
                     }
                 }
             }
@@ -352,29 +360,104 @@ class TicTacToe {
     }
 
     /**
-     * Play a move using a Minimax algorithm.
-     * @returns The coordinates of the move.
+     * Used in Misere mode only, if multiple move have the same minimax score, we pick one that does not block an opponent streak (we try to force the opponent to close a streak).
+     * If we're forced to do so we use the latest best move.
+     * @returns Boolean
      */
-    private minimaxPlay(): [number, number] {
-        let bestScore = -Infinity;
-        let move: [number, number] | undefined;
+    private getNonBlockingStreakIfPossible(moves: [number, number, GameSymbol][]): [number, number, GameSymbol] | undefined {
+        return (
+            moves.find((move) => {
+                const simulatedBoard = structuredClone(this.board);
+                simulatedBoard[move[0]][move[1]] = this.getOpponent();
+                if (this.isGameWon(simulatedBoard)) {
+                    return false;
+                }
+                return true;
+            }) || moves.pop()
+        );
+    }
+
+    /**
+     * Used in Wild mode only, determine if the bestScored move from minimax give away the victory in the next move.
+     * @returns Boolean
+     */
+    private doesGiveAwayTheVictory(x: number, y: number, pick: GameSymbol): boolean {
+        const simulatedBoard = structuredClone(this.board);
+        simulatedBoard[x][y] = pick;
+        let giveAwayVictory = false;
 
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
-                if (this.board[i][j] === Symbol.Empty) {
-                    this.board[i][j] = this.currentSymbol;
-                    let score = this.minimaxAI(this.board, 0, true); // changed this to true
-                    this.board[i][j] = Symbol.Empty;
-
-                    if (score > bestScore) {
-                        bestScore = score;
-                        move = [i, j];
+                if (simulatedBoard[i][j] === GameSymbol.Empty) {
+                    for (const pick of [this.currentSymbol, this.getOpponent()]) {
+                        simulatedBoard[i][j] = pick;
+                        if (this.isGameWon(simulatedBoard)) {
+                            giveAwayVictory = true;
+                            break;
+                        }
+                        simulatedBoard[i][j] = GameSymbol.Empty;
                     }
                 }
             }
         }
 
-        return move || this.randomPlay();
+        return giveAwayVictory;
+    }
+
+    /**
+     * Play a move using a Minimax algorithm.
+     * @returns The coordinates of the move.
+     */
+    private minimaxPlay(): [number, number, GameSymbol] {
+        let bestScore = -Infinity;
+        const moves: [number, number, GameSymbol][] = [];
+
+        // if board is empty no need to run thru the minimax recursion (result is always 2,2)
+        if (this.isBoardEmpty()) {
+            return [2, 2, this.currentSymbol];
+        }
+
+        const addBestScore = (score: number, i: number, j: number, pick: GameSymbol) => {
+            if (bestScore !== score) {
+                moves.splice(0, moves.length, [i, j, pick]);
+                bestScore = score;
+            } else {
+                moves.push([i, j, pick]);
+            }
+        };
+
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (this.board[i][j] === GameSymbol.Empty) {
+                    const picks = [this.currentSymbol];
+                    this.config.mode === GameModes.Wild && picks.push(this.getOpponent());
+                    for (const pick of picks) {
+                        this.board[i][j] = pick;
+                        let score = this.minimaxAI(this.board, 0, true);
+                        this.board[i][j] = GameSymbol.Empty;
+
+                        if (this.config.mode === GameModes.Standard) {
+                            if (score >= bestScore) {
+                                addBestScore(score, i, j, pick);
+                            }
+                        } else {
+                            // Wild Mode
+                            if (this.config.victory === VictoryModes.Standard && score >= bestScore && this.doesGiveAwayTheVictory(i, j, pick) === false) {
+                                addBestScore(score, i, j, pick);
+                            } else if (this.config.victory === VictoryModes.Misere && score >= bestScore) {
+                                if (this.doesGiveAwayTheVictory(i, j, pick) === true) {
+                                    score++;
+                                }
+                                addBestScore(score, i, j, pick);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        const move = this.config.victory === VictoryModes.Misere ? this.getNonBlockingStreakIfPossible(moves) : moves.pop();
+        return move || [...this.randomPlay(), this.currentSymbol];
     }
 
     /**
@@ -393,7 +476,7 @@ class TicTacToe {
     /**
      * Perform the AI's turn in the game.
      * - If the AI level is Hard and both game and victory mode set to standard, it uses the Minimax algorithm to find the best move. Otherwise, it uses a rule-based approach.
-     * - If the game mode is Wild and the AI's symbol choice is different from the current one, it changes to the opposite symbol.
+     * - If the game mode is Wild and the AI's symbol choice is different from the current one, it changes to the opposite GameSymbol.
      * - Finally, it makes the AI's move.
      */
     private playAI(): void {
@@ -414,7 +497,7 @@ class TicTacToe {
      * @returns `true` if the move was successful, `false` otherwise.
      */
     private makeMove(row: number, col: number): boolean {
-        if (this.board[row][col] !== Symbol.Empty) {
+        if (this.board[row][col] !== GameSymbol.Empty) {
             return false;
         }
         this.board[row][col] = this.pick ? this.pick : this.currentSymbol;
@@ -426,16 +509,16 @@ class TicTacToe {
      */
     private switchPlayer(): void {
         if (!this.isGameWon()) {
-            this.currentSymbol = this.currentSymbol === Symbol.Cross ? Symbol.Circle : Symbol.Cross;
+            this.currentSymbol = this.getOpponent();
         }
     }
 
     /**
      * When game instance is created, first player is "randomly" picked.
-     * Symbol.Cross is always a Human, Symbol.Circle depends on config.opponent type.
+     * GameSymbol.Cross is always a Human, GameSymbol.Circle depends on config.opponent type.
      */
     protected setSymbol(): void {
-        this.currentSymbol = [Symbol.Cross, Symbol.Circle][Math.round(Math.random())];
+        this.currentSymbol = [GameSymbol.Cross, GameSymbol.Circle][Math.round(Math.random())];
     }
 
     /**

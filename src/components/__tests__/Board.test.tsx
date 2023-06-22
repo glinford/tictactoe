@@ -4,7 +4,7 @@ import Board from "../Board";
 
 describe("Board", () => {
     let game: TicTacToe;
-    let onCellClick: any;
+    let onCellClick: jest.Mock;
 
     beforeEach(() => {
         game = new TicTacToe({

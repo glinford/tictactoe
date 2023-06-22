@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import TicTacToe, { AILevel, GameModes, Symbol, PlayerTypes, VictoryModes } from "../game/tictactoe";
+import TicTacToe, { AILevel, GameModes, GameSymbol, PlayerTypes, VictoryModes } from "../game/tictactoe";
 import Board from "./Board";
 import Toggle from "./Toggle";
 
@@ -14,7 +14,7 @@ const Game = () => {
     const [victory, setVictoryMode] = useState<VictoryModes>(VictoryModes.Standard);
     const [opponent, setOpponent] = useState<PlayerTypes>(PlayerTypes.Human);
     const [level, setLevel] = useState<AILevel>(AILevel.Easy);
-    const [symbol, setSymbol] = useState<Symbol>(Symbol.Cross);
+    const [symbol, setSymbol] = useState<GameSymbol>(GameSymbol.Cross);
 
     useEffect(() => {
         if (inPlay) {
@@ -93,11 +93,14 @@ const Game = () => {
                     <>
                         <Board game={game} onCellClick={onCellClick} />
                         {mode === GameModes.Wild && (
-                            <Toggle<Symbol>
+                            <Toggle<GameSymbol>
                                 testid="choice"
                                 choice={symbol}
-                                toggleStates={[Symbol.Cross, Symbol.Circle]}
-                                onToggle={(choice) => game.setChoice(choice)}
+                                toggleStates={[GameSymbol.Cross, GameSymbol.Circle]}
+                                onToggle={(choice) => {
+                                    game.setChoice(choice);
+                                    setSymbol(choice);
+                                }}
                             />
                         )}
                     </>
