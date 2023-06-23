@@ -105,7 +105,7 @@ describe("TicTacToe AI", () => {
             fillBoard(game);
         });
 
-        test("AI should never close of a streak in Misere mode #2", () => {
+        test("AI should never close of a streak in Misere mode #1", () => {
             game.setBoard([
                 [GameSymbol.Circle, GameSymbol.Circle, GameSymbol.Empty],
                 [GameSymbol.Cross, GameSymbol.Empty, GameSymbol.Empty],
@@ -115,7 +115,9 @@ describe("TicTacToe AI", () => {
             game.play(2, 1);
             expect(game.getBoard()[1][2]).toEqual(GameSymbol.Circle);
             expect(game.isGameWon()).toEqual(false);
+        });
 
+        test("AI should never close of a streak in Misere mode #2", () => {
             game.setBoard([
                 [GameSymbol.Cross, GameSymbol.Cross, GameSymbol.Empty],
                 [GameSymbol.Circle, GameSymbol.Circle, GameSymbol.Empty],
@@ -126,7 +128,9 @@ describe("TicTacToe AI", () => {
             expect(game.getBoard()[0][2]).toEqual(GameSymbol.Empty);
             expect(game.getBoard()[2][2]).toEqual(GameSymbol.Circle);
             expect(game.isGameWon()).toEqual(false);
+        });
 
+        test("AI should never close of a streak in Misere mode #3", () => {
             game.setBoard([
                 [GameSymbol.Cross, GameSymbol.Empty, GameSymbol.Circle],
                 [GameSymbol.Empty, GameSymbol.Empty, GameSymbol.Empty],
@@ -136,7 +140,9 @@ describe("TicTacToe AI", () => {
             game.play(2, 2);
             expect(game.getBoard()[1][1]).not.toEqual(GameSymbol.Circle);
             expect(game.isGameWon()).toEqual(false);
+        });
 
+        test("AI should never close of a streak in Misere mode #4", () => {
             game.setBoard([
                 [GameSymbol.Cross, GameSymbol.Empty, GameSymbol.Empty],
                 [GameSymbol.Empty, GameSymbol.Circle, GameSymbol.Empty],
@@ -146,7 +152,9 @@ describe("TicTacToe AI", () => {
             game.play(0, 1);
             expect(game.getBoard()[0][2]).not.toEqual(GameSymbol.Circle);
             expect(game.isGameWon()).toEqual(false);
+        });
 
+        test("AI should never close of a streak in Misere mode #5", () => {
             game.setBoard([
                 [GameSymbol.Circle, GameSymbol.Circle, GameSymbol.Empty],
                 [GameSymbol.Cross, GameSymbol.Empty, GameSymbol.Empty],
@@ -158,7 +166,7 @@ describe("TicTacToe AI", () => {
             expect(game.isGameWon()).toEqual(false);
         });
 
-        test("AI should never block of a streak from the opponent in Misere mode (expect if forced to not loose)", () => {
+        test("AI should never block of a streak from the opponent in Misere mode (expect if forced to not loose) #1", () => {
             game.setBoard([
                 [GameSymbol.Cross, GameSymbol.Empty, GameSymbol.Empty],
                 [GameSymbol.Empty, GameSymbol.Empty, GameSymbol.Empty],
@@ -168,7 +176,8 @@ describe("TicTacToe AI", () => {
             expect(game.getBoard()[0][2]).not.toEqual(GameSymbol.Circle);
             expect(game.getBoard()[2][1]).not.toEqual(GameSymbol.Circle);
             expect(game.isGameWon()).toEqual(false);
-
+        });
+        test("AI should never block of a streak from the opponent in Misere mode (expect if forced to not loose) #2", () => {
             game.setBoard([
                 [GameSymbol.Cross, GameSymbol.Empty, GameSymbol.Empty],
                 [GameSymbol.Empty, GameSymbol.Empty, GameSymbol.Empty],
@@ -178,7 +187,8 @@ describe("TicTacToe AI", () => {
             game.play(0, 1);
             expect(game.getBoard()[0][2]).not.toEqual(GameSymbol.Circle);
             expect(game.isGameWon()).toEqual(false);
-
+        });
+        test("AI should never block of a streak from the opponent in Misere mode (expect if forced to not loose) #3", () => {
             game.setBoard([
                 [GameSymbol.Circle, GameSymbol.Circle, GameSymbol.Cross],
                 [GameSymbol.Empty, GameSymbol.Empty, GameSymbol.Empty],
@@ -188,7 +198,8 @@ describe("TicTacToe AI", () => {
             game.play(2, 1);
             expect(game.getBoard()[2][2]).not.toEqual(GameSymbol.Circle);
             expect(game.isGameWon()).toEqual(false);
-
+        });
+        test("AI should never block of a streak from the opponent in Misere mode (expect if forced to not loose) #4", () => {
             game.setBoard([
                 [GameSymbol.Cross, GameSymbol.Empty, GameSymbol.Empty],
                 [GameSymbol.Circle, GameSymbol.Empty, GameSymbol.Empty],
@@ -227,7 +238,7 @@ describe("TicTacToe AI", () => {
             fillBoard(game);
         });
 
-        test("AI should never give opponent opportunity to do a streak on a next move in Wild mode", () => {
+        test("AI should never give opponent opportunity to do a streak on a next move in Wild mode #1", () => {
             game.setBoard([
                 [GameSymbol.Circle, GameSymbol.Empty, GameSymbol.Empty],
                 [GameSymbol.Cross, GameSymbol.Empty, GameSymbol.Empty],
@@ -241,7 +252,9 @@ describe("TicTacToe AI", () => {
             expect(game.getBoard()[1][1]).toEqual(GameSymbol.Empty);
             expect(game.getBoard()[1][2]).not.toEqual(GameSymbol.Cross);
             expect(game.isGameWon()).toEqual(false);
+        });
 
+        test("AI should never give opponent opportunity to do a streak on a next move in Wild mode #2", () => {
             game.setBoard([
                 [GameSymbol.Empty, GameSymbol.Empty, GameSymbol.Empty],
                 [GameSymbol.Empty, GameSymbol.Empty, GameSymbol.Circle],
@@ -255,18 +268,9 @@ describe("TicTacToe AI", () => {
             expect(game.getBoard()[1][1]).toEqual(GameSymbol.Empty);
             expect(game.getBoard()[0][1]).not.toEqual(GameSymbol.Cross);
             expect(game.isGameWon()).toEqual(false);
+        });
 
-            game.setBoard([
-                [GameSymbol.Cross, GameSymbol.Empty, GameSymbol.Empty],
-                [GameSymbol.Empty, GameSymbol.Empty, GameSymbol.Empty],
-                [GameSymbol.Empty, GameSymbol.Circle, GameSymbol.Circle],
-            ]);
-
-            game.setChoice(GameSymbol.Circle);
-            game.play(1, 1);
-            expect(game.getBoard()[0][2]).not.toEqual(GameSymbol.Circle);
-            expect(game.isGameWon()).toEqual(false);
-
+        test("AI should never give opponent opportunity to do a streak on a next move in Wild mode #3", () => {
             game.setBoard([
                 [GameSymbol.Empty, GameSymbol.Cross, GameSymbol.Empty],
                 [GameSymbol.Circle, GameSymbol.Empty, GameSymbol.Empty],
@@ -291,7 +295,7 @@ describe("TicTacToe AI", () => {
             fillBoard(game);
         });
 
-        test("AI should never close of a streak in Misere mode", () => {
+        test("AI should never close of a streak in Misere mode #1", () => {
             game.setBoard([
                 [GameSymbol.Cross, GameSymbol.Cross, GameSymbol.Empty],
                 [GameSymbol.Circle, GameSymbol.Circle, GameSymbol.Empty],
@@ -302,7 +306,9 @@ describe("TicTacToe AI", () => {
             expect(game.getBoard()[0][2]).not.toEqual(GameSymbol.Circle);
             expect(game.getBoard()[2][2]).toEqual(GameSymbol.Circle);
             expect(game.isGameWon()).toEqual(false);
+        });
 
+        test("AI should never close of a streak in Misere mode #2", () => {
             game.setBoard([
                 [GameSymbol.Cross, GameSymbol.Empty, GameSymbol.Circle],
                 [GameSymbol.Empty, GameSymbol.Empty, GameSymbol.Empty],
@@ -312,7 +318,9 @@ describe("TicTacToe AI", () => {
             game.play(2, 2);
             expect(game.getBoard()[1][1]).not.toEqual(GameSymbol.Circle);
             expect(game.isGameWon()).toEqual(false);
+        });
 
+        test("AI should never close of a streak in Misere mode #3", () => {
             game.setBoard([
                 [GameSymbol.Cross, GameSymbol.Empty, GameSymbol.Empty],
                 [GameSymbol.Empty, GameSymbol.Circle, GameSymbol.Empty],
@@ -324,7 +332,7 @@ describe("TicTacToe AI", () => {
             expect(game.isGameWon()).toEqual(false);
         });
 
-        test("AI should never block of a streak from the opponent in Misere mode (expect if forced to not loose)", () => {
+        test("AI should never block of a streak from the opponent in Misere mode (expect if forced to not loose) #1", () => {
             game.setBoard([
                 [GameSymbol.Cross, GameSymbol.Empty, GameSymbol.Empty],
                 [GameSymbol.Empty, GameSymbol.Empty, GameSymbol.Empty],
@@ -334,7 +342,9 @@ describe("TicTacToe AI", () => {
             expect(game.getBoard()[0][2]).not.toEqual(GameSymbol.Circle);
             expect(game.getBoard()[2][1]).not.toEqual(GameSymbol.Circle);
             expect(game.isGameWon()).toEqual(false);
+        });
 
+        test("AI should never block of a streak from the opponent in Misere mode (expect if forced to not loose) #2", () => {
             game.setBoard([
                 [GameSymbol.Cross, GameSymbol.Empty, GameSymbol.Empty],
                 [GameSymbol.Empty, GameSymbol.Empty, GameSymbol.Empty],
@@ -344,7 +354,9 @@ describe("TicTacToe AI", () => {
             game.play(0, 1);
             expect(game.getBoard()[0][2]).not.toEqual(GameSymbol.Circle);
             expect(game.isGameWon()).toEqual(false);
+        });
 
+        test("AI should never block of a streak from the opponent in Misere mode (expect if forced to not loose) #3", () => {
             game.setBoard([
                 [GameSymbol.Circle, GameSymbol.Circle, GameSymbol.Cross],
                 [GameSymbol.Empty, GameSymbol.Empty, GameSymbol.Empty],
@@ -354,7 +366,9 @@ describe("TicTacToe AI", () => {
             game.play(2, 1);
             expect(game.getBoard()[2][2]).not.toEqual(GameSymbol.Circle);
             expect(game.isGameWon()).toEqual(false);
+        });
 
+        test("AI should never block of a streak from the opponent in Misere mode (expect if forced to not loose) #4", () => {
             game.setBoard([
                 [GameSymbol.Cross, GameSymbol.Empty, GameSymbol.Empty],
                 [GameSymbol.Circle, GameSymbol.Empty, GameSymbol.Empty],
@@ -367,7 +381,7 @@ describe("TicTacToe AI", () => {
             expect(game.isGameWon()).toEqual(false);
         });
 
-        test("AI can block of a streak from the opponent in Misere mode if it's the only way not to loose", () => {
+        test("AI can block of a streak from the opponent in Misere mode if it's the only way not to loose #1", () => {
             game.setBoard([
                 [GameSymbol.Cross, GameSymbol.Circle, GameSymbol.Empty],
                 [GameSymbol.Empty, GameSymbol.Empty, GameSymbol.Cross],
